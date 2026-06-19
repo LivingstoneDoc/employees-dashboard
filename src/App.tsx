@@ -1,16 +1,17 @@
 import "@mantine/core/styles.css";
 import { MantineProvider } from "@mantine/core";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { employeeApi } from "./api/employeeApi";
 
 function App() {
+  const [page, setPage] = useState(1);
   useEffect(() => {
     const testApi = async () => {
       try {
         console.log("Fetching all employees in progress...");
-        const data = await employeeApi.getAll();
-        console.log("All employees successfully fetched:", data);
-        console.log("First employee:", data[0]);
+        const data = await employeeApi.getAll(page, 15);
+        console.log("Employees for this page:", data.data);
+        console.log("Total emplyees", data.total);
       } catch (error) {
         console.error("Error fetching employees:", error);
       }

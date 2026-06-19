@@ -6,9 +6,16 @@ let inMemoryDb: Employee[] = generateEmployees(100);
 const delay = (ms = 500) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const employeeApi = {
-  getAll: async (): Promise<Employee[]> => {
+  getAll: async (
+    page: number = 1,
+    limit: number = 10,
+  ): Promise<{ data: Employee[]; total: number }> => {
     await delay(500);
-    return [...inMemoryDb];
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+    const paginatedData = inMemoryDb.slice(startIndex, endIndex);
+    const total = inMemoryDb.length;
+    return { data: paginatedData, total };
   },
   getById: async (id: string): Promise<Employee | undefined> => {
     await delay(300);
