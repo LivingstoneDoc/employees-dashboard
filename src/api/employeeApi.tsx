@@ -7,8 +7,8 @@ const delay = (ms = 500) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const employeeApi = {
   getAll: async (
-    page: number = 1,
-    limit: number = 10,
+    page: number,
+    limit: number,
   ): Promise<{ data: Employee[]; total: number }> => {
     await delay(500);
     const startIndex = (page - 1) * limit;

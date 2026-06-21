@@ -10,12 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.2.8",
     "@mantine/charts": "^9.3.2",
     "@mantine/core": "^9.3.2",
     "@mantine/dates": "^9.3.2",
     "@mantine/form": "^9.3.2",
     "@mantine/hooks": "^9.3.2",
     "@mantine/notifications": "^9.3.2",
+    "@phosphor-icons/react": "^2.1.10",
     "dayjs": "^1.11.21",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",

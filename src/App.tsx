@@ -1,26 +1,22 @@
 import "@mantine/core/styles.css";
-import { MantineProvider } from "@mantine/core";
-import { useEffect, useState } from "react";
-import { employeeApi } from "./api/employeeApi";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/600.css";
+import "@fontsource/inter/700.css";
+import { createTheme, MantineProvider } from "@mantine/core";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./Router/router";
+
+const theme = createTheme({
+  primaryColor: "blue",
+  fontFamily: "Inter, sans-serif",
+  headings: { fontFamily: "Inter, sans-serif" },
+});
 
 function App() {
-  const [page, setPage] = useState(1);
-  useEffect(() => {
-    const testApi = async () => {
-      try {
-        console.log("Fetching all employees in progress...");
-        const data = await employeeApi.getAll(page, 15);
-        console.log("Employees for this page:", data.data);
-        console.log("Total emplyees", data.total);
-      } catch (error) {
-        console.error("Error fetching employees:", error);
-      }
-    };
-    testApi();
-  }, []);
   return (
-    <MantineProvider>
-      <h1>Testing API in console</h1>
+    <MantineProvider theme={theme}>
+      <RouterProvider router={router} />
     </MantineProvider>
   );
 }
