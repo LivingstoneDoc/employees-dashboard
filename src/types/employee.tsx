@@ -1,7 +1,7 @@
 export const GENDERS = ["Мужской", "Женский"] as const;
 export type Gender = (typeof GENDERS)[number];
 
-export const STATUS = ["Работает", "Уволен", "В отпуске"] as const;
+export const STATUS = ["Активен", "Уволен", "В отпуске"] as const;
 export type Status = (typeof STATUS)[number];
 
 export const RELATIONS = ["Супруг(а)", "Ребенок"] as const;

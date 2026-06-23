@@ -1,4 +1,5 @@
-import type { Employee } from "../types/employee";
+import type { SortDirection } from "../store/useFilterStore";
+import type { Employee, Status } from "../types/employee";
 import { generateEmployees } from "./fakeDb";
 
 let inMemoryDb: Employee[] = generateEmployees(100);
@@ -9,12 +10,45 @@ export const employeeApi = {
   getAll: async (
     page: number,
     limit: number,
+    searchQuery: string = "",
+    statusFilter: Status | null = null,
+    sortDirection: SortDirection | null = null,
   ): Promise<{ data: Employee[]; total: number }> => {
     await delay(500);
+    let filteredData = [...inMemoryDb];
+    if (searchQuery) {
+      const lowerCaseQuery = searchQuery.toLowerCase();
+      filteredData = inMemoryDb.filter((employee) => {
+        const fullName =
+          `${employee.lastName} ${employee.firstName} ${employee.middleName}`.toLowerCase();
+        const email = (employee.email || "").toLowerCase();
+        return (
+          fullName.includes(lowerCaseQuery) || email.includes(lowerCaseQuery)
+        );
+      });
+    }
+    if (statusFilter) {
+      filteredData = filteredData.filter(
+        (employee) => employee.status === statusFilter,
+      );
+    }
+    if (sortDirection) {
+      filteredData.sort((a, b) => {
+        const nameA =
+          `${a.lastName} ${a.firstName} ${a.middleName || ""}`.trim();
+        const nameB =
+          `${b.lastName} ${b.firstName} ${b.middleName || ""}`.trim();
+        if (sortDirection === "asc") {
+          return nameA.localeCompare(nameB);
+        } else {
+          return nameB.localeCompare(nameA);
+        }
+      });
+    }
     const startIndex = (page - 1) * limit;
     const endIndex = startIndex + limit;
-    const paginatedData = inMemoryDb.slice(startIndex, endIndex);
-    const total = inMemoryDb.length;
+    const paginatedData = filteredData.slice(startIndex, endIndex);
+    const total = filteredData.length;
     return { data: paginatedData, total };
   },
   getById: async (id: string): Promise<Employee | undefined> => {

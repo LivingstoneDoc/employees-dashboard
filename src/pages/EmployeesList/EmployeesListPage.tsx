@@ -1,46 +1,51 @@
 import { useEffect, useState } from "react";
 import { employeeApi } from "../../api/employeeApi";
-import { Button, Container, Text, Title } from "@mantine/core";
-import { Link } from "react-router-dom";
-import { APP_ROUTS } from "../../constants/routes";
+import { Container, Pagination, Text, Title } from "@mantine/core";
 import { PAGINATION } from "../../constants/config";
+import { useFilterStore } from "../../store/useFilterStore";
+import { useDebouncedValue } from "@mantine/hooks";
+import { EmployeesFilters } from "./components/EmployeesFilters";
+import { EmployeesTable } from "./components/EmployeesTable";
 
 export const EmployeesListPage = () => {
   const [employees, setEmployees] = useState<any[]>([]);
-  const [page, setPage] = useState(PAGINATION.CURRENT_PAGE);
+  const [totalPages, setTotalPages] = useState<number>(PAGINATION.DEFAULT_PAGE);
+  const { searchQuery, statusFilter, sortDirection, page, setPage } =
+    useFilterStore();
+  const [debouncedSearch] = useDebouncedValue(searchQuery, 300);
+
   useEffect(() => {
     const testApi = async () => {
       try {
-        console.log("Fetching all employees in progress...");
-        const data = await employeeApi.getAll(
+        const response = await employeeApi.getAll(
           page,
           PAGINATION.DEFAULT_PAGE_SIZE,
+          debouncedSearch,
+          statusFilter,
+          sortDirection,
         );
-        setEmployees(data.data);
-        console.log("Employees for this page:", data.data);
-        console.log("First Employee:", data.data[0]);
-        console.log("Total emplyees", data.total);
+        setEmployees(response.data);
+        const calculatedTotalPages = Math.ceil(
+          response.total / PAGINATION.DEFAULT_PAGE_SIZE,
+        );
+        setTotalPages(calculatedTotalPages);
       } catch (error) {
         console.error("Error fetching employees:", error);
       }
     };
     testApi();
-  }, []);
+  }, [page, debouncedSearch, statusFilter, sortDirection]);
+
   return (
     <Container size="lg">
       <Title order={2}>Список сотрудников</Title>
-      <Text>Таблица сотрудников</Text>
-      {/* Кнопку ниже сделал просто для проверки работоспособности роутинга */}
-      {employees.length > 0 && (
-        <Button
-          component={Link}
-          to={APP_ROUTS.GET_EMPLOYEE_DETAILS_URL(employees[0].id)}
-          variant="light"
-          size="xs"
-        >
-          Профиль сотрудника
-        </Button>
+      <EmployeesFilters />
+      {employees.length > 0 ? (
+        <EmployeesTable employees={employees} />
+      ) : (
+        <Text mt="lg">Сотрудники не найдены</Text>
       )}
+      <Pagination total={totalPages} value={page} onChange={setPage} mt="md" />
     </Container>
   );
 };
