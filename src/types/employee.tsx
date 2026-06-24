@@ -22,6 +22,7 @@ export interface FamilyMember {
 }
 
 export interface Education {
+  id: string;
   institution: string;
   degree: EducationDegree;
   graduationYear: number;
@@ -40,7 +41,7 @@ export interface Employee {
   firstName: string;
   lastName: string;
   middleName?: string;
-  birthDate: string;
+  birthDate: string | null;
   gender: Gender;
   phone: string;
   email: string;

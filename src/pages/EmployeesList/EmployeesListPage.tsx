@@ -15,7 +15,7 @@ export const EmployeesListPage = () => {
   const [debouncedSearch] = useDebouncedValue(searchQuery, 300);
 
   useEffect(() => {
-    const testApi = async () => {
+    const fetchEmployees = async () => {
       try {
         const response = await employeeApi.getAll(
           page,
@@ -33,7 +33,7 @@ export const EmployeesListPage = () => {
         console.error("Error fetching employees:", error);
       }
     };
-    testApi();
+    fetchEmployees();
   }, [page, debouncedSearch, statusFilter, sortDirection]);
 
   return (
