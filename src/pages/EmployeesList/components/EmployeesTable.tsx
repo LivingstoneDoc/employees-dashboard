@@ -16,7 +16,7 @@ export const EmployeesTable = ({ employees }: EmployeesTableProps) => {
   const arrowUpIcon = <ArrowUpIcon size={20} />;
   const arrowDownIcon = <ArrowDownIcon size={20} />;
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString: string | null) => {
     if (!dateString) {
       return "";
     }
