@@ -1,8 +1,12 @@
 import "@mantine/dates/styles.css";
 import {
+  Alert,
+  Button,
   Center,
   Container,
   Group,
+  Loader,
+  LoadingOverlay,
   Paper,
   Text,
   Title,
@@ -15,39 +19,99 @@ import { useEffect, useState } from "react";
 import { employeeApi } from "../../api/employeeApi";
 import type { Employee } from "../../types/employee";
 import { EmployeeDetailsForm } from "./components/EmployeeDetailsForm";
+import { notifications } from "@mantine/notifications";
+import { RefreshIcon, WarningIcon } from "../../constants/icons";
+import { ERROR_MESSAGES, SUCCESS_MESSAGES } from "../../constants/messages";
+import { notify } from "../../utils.tsx/notifications";
+import { ErrorAlert } from "../../components/ErrorAlert/ErrorAlert";
 
 export const EmployeeDetailsPage = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [employee, setEmployee] = useState<Employee | null>(null);
+  const [isFetching, setIsFetching] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchEmployeeDetails = async () => {
+    if (!id) return;
+    setIsFetching(true);
+    setError(null);
+    try {
+      const response = await employeeApi.getById(id);
+      if (response) {
+        setEmployee(response);
+      } else {
+        setError(ERROR_MESSAGES.EMPLOYEE_NOT_FOUND);
+      }
+    } catch (error) {
+      console.error(error);
+      setError(ERROR_MESSAGES.FETCH_DETAILS_FAILED);
+    } finally {
+      setIsFetching(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchEmployeeDetails = async () => {
-      if (!id) return;
-      try {
-        const response = await employeeApi.getById(id);
-        if (response) {
-          setEmployee(response);
-        } else {
-          console.error("Сотрудник не найден");
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
     fetchEmployeeDetails();
   }, [id]);
 
-  const handleSave = () => {
-    console.log("The form is valid and ready to submit");
+  const handleSave = async (values: Employee) => {
+    if (!id) return;
+    setIsSaving(true);
+    try {
+      const updatedEmpolyee = await employeeApi.update(id, values);
+      setEmployee(updatedEmpolyee);
+      notify.success(SUCCESS_MESSAGES.SAVE_SUCCESS);
+    } catch (error) {
+      console.error("Saving error", error);
+      notify.error(ERROR_MESSAGES.SAVE_FAILED);
+      throw error;
+    } finally {
+      setIsSaving(false);
+    }
   };
 
-  if (!employee) {
-    return <Center h="100vh">Сотрудник не найден</Center>;
+  if (error && !employee) {
+    return (
+      <Container size="lg" mt="xl">
+        <ErrorAlert title={ERROR_MESSAGES.UNKNOWN_ERROR} message={error}>
+          <Button
+            variant="outline"
+            color="red"
+            leftSection={<RefreshIcon />}
+            onClick={fetchEmployeeDetails}
+          >
+            Обновить
+          </Button>
+          <Button
+            variant="subtle"
+            color="gray"
+            onClick={() => navigate(APP_ROUTS.EMPLOYEES)}
+          >
+            Вернуться к списку
+          </Button>
+        </ErrorAlert>
+      </Container>
+    );
+  }
+
+  if (isFetching && !employee) {
+    return (
+      <Center h="50vh">
+        <Loader color="blue" size="xl" type="dots" />
+      </Center>
+    );
   }
 
   return (
-    <Container size="lg">
+    <Container pos="relative" size="lg">
+      <LoadingOverlay
+        visible={isSaving}
+        zIndex={1000}
+        overlayProps={{ radius: "sm", blur: 2 }}
+      />
+
       <UnstyledButton
         onClick={() => navigate(APP_ROUTS.EMPLOYEES)}
         c="blue.9"
@@ -61,9 +125,11 @@ export const EmployeeDetailsPage = () => {
       <Title order={2} mt="sm">
         Информация о сотруднике
       </Title>
-      <Paper p="md" shadow="sm" radius="md" withBorder>
-        <EmployeeDetailsForm initialData={employee} onSubmit={handleSave} />
-      </Paper>
+      {employee && (
+        <Paper p="md" shadow="sm" radius="md" withBorder>
+          <EmployeeDetailsForm initialData={employee} onSubmit={handleSave} />
+        </Paper>
+      )}
     </Container>
   );
 };

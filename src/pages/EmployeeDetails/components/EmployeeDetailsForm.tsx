@@ -11,10 +11,11 @@ import {
 } from "@phosphor-icons/react";
 import { useForm } from "@mantine/form";
 import type { Employee, Gender, Status } from "../../../types/employee";
+import { useState } from "react";
 
 interface EmployeeDetailsFormProps {
   initialData?: Employee;
-  onSubmit: (values: Employee) => void;
+  onSubmit: (values: Employee) => Promise<void>;
 }
 
 const defaultEmployee: Employee = {
@@ -79,8 +80,18 @@ export const EmployeeDetailsForm = ({
   const educationIcon = <GraduationCapIcon size={16} />;
   const workIcon = <ArchiveIcon size={16} />;
 
+  const handleSubmit = async (values: Employee) => {
+    try {
+      await onSubmit(values);
+      form.setInitialValues(values);
+      form.reset();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <form onSubmit={form.onSubmit(onSubmit)}>
+    <form onSubmit={form.onSubmit(handleSubmit)}>
       <Tabs defaultValue="basic">
         <Tabs.List mb="md">
           <Tabs.Tab value="basic" leftSection={userIcon}>
