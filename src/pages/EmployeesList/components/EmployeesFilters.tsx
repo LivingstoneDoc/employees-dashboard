@@ -28,7 +28,7 @@ export const EmployeesFilters = () => {
   };
 
   return (
-    <Group mt="md">
+    <Group>
       <TextInput
         flex={1}
         placeholder="Поиск по ФИО или Email"

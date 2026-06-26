@@ -7,6 +7,7 @@ import {
   Group,
   LoadingOverlay,
   Pagination,
+  Stack,
   Text,
   Title,
 } from "@mantine/core";
@@ -79,12 +80,7 @@ export const EmployeesListPage = () => {
       return (
         <>
           <EmployeesTable employees={employees} />
-          <Pagination
-            total={totalPages}
-            value={page}
-            onChange={setPage}
-            mt="md"
-          />
+          <Pagination total={totalPages} value={page} onChange={setPage} />
         </>
       );
     }
@@ -97,24 +93,26 @@ export const EmployeesListPage = () => {
 
   return (
     <Container size="lg">
-      <Group justify="space-between" align="center" mb="md">
-        <Title order={2}>Список сотрудников</Title>
-        <Button
-          leftSection={<AddIcon />}
-          onClick={() => navigate(APP_ROUTS.CREATE_EMPLOYEE)}
-        >
-          Добавить сотрудника
-        </Button>
-      </Group>
-      <EmployeesFilters />
-      <Box pos="relative" mih="70vh" mt="md">
-        <LoadingOverlay
-          visible={isLoading}
-          zIndex={1000}
-          overlayProps={{ radius: "sm", blur: 2 }}
-        />
-        {renderContent()}
-      </Box>
+      <Stack gap="xs">
+        <Group justify="space-between" align="center">
+          <Title order={2}>Список сотрудников</Title>
+          <Button
+            leftSection={<AddIcon />}
+            onClick={() => navigate(APP_ROUTS.CREATE_EMPLOYEE)}
+          >
+            Добавить сотрудника
+          </Button>
+        </Group>
+        <EmployeesFilters />
+        <Box pos="relative" mih="70vh" mt="md">
+          <LoadingOverlay
+            visible={isLoading}
+            zIndex={1000}
+            overlayProps={{ radius: "sm", blur: 2 }}
+          />
+          {renderContent()}
+        </Box>
+      </Stack>
     </Container>
   );
 };

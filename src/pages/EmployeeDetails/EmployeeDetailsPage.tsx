@@ -3,15 +3,11 @@ import {
   Button,
   Center,
   Container,
-  Group,
   Loader,
   LoadingOverlay,
   Paper,
-  Text,
   Title,
-  UnstyledButton,
 } from "@mantine/core";
-import { ArrowLeftIcon } from "@phosphor-icons/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { APP_ROUTS } from "../../constants/routes";
 import { useEffect, useState } from "react";
@@ -71,37 +67,49 @@ export const EmployeeDetailsPage = () => {
     }
   };
 
-  if (error && !employee) {
-    return (
-      <Container size="lg" mt="xl">
-        <ErrorAlert title={ERROR_MESSAGES.UNKNOWN_ERROR} message={error}>
-          <Button
-            variant="outline"
-            color="red"
-            leftSection={<RefreshIcon />}
-            onClick={fetchEmployeeDetails}
-          >
-            Обновить
-          </Button>
-          <Button
-            variant="subtle"
-            color="gray"
-            onClick={() => navigate(APP_ROUTS.EMPLOYEES)}
-          >
-            Вернуться к списку
-          </Button>
-        </ErrorAlert>
-      </Container>
-    );
-  }
+  const renderContent = () => {
+    if (isFetching && !employee) {
+      return (
+        <Center h="50vh">
+          <Loader color="blue" size="xl" type="dots" />
+        </Center>
+      );
+    }
 
-  if (isFetching && !employee) {
-    return (
-      <Center h="50vh">
-        <Loader color="blue" size="xl" type="dots" />
-      </Center>
-    );
-  }
+    if (error && !employee) {
+      return (
+        <Container size="lg" mt="xl">
+          <ErrorAlert title={ERROR_MESSAGES.UNKNOWN_ERROR} message={error}>
+            <Button
+              variant="outline"
+              color="red"
+              leftSection={<RefreshIcon />}
+              onClick={fetchEmployeeDetails}
+            >
+              Обновить
+            </Button>
+            <Button
+              variant="subtle"
+              color="gray"
+              onClick={() => navigate(APP_ROUTS.EMPLOYEES)}
+            >
+              Вернуться к списку
+            </Button>
+          </ErrorAlert>
+        </Container>
+      );
+    }
+
+    if (employee) {
+      return (
+        <Paper p="md" shadow="sm" radius="md" withBorder>
+          <EmployeeDetailsForm initialData={employee} onSubmit={handleSave} />
+        </Paper>
+      );
+    }
+
+    return null;
+  };
 
   return (
     <Container pos="relative" size="lg">
@@ -114,11 +122,7 @@ export const EmployeeDetailsPage = () => {
       <Title order={2} mt="sm" mb="md">
         Информация о сотруднике
       </Title>
-      {employee && (
-        <Paper p="md" shadow="sm" radius="md" withBorder>
-          <EmployeeDetailsForm initialData={employee} onSubmit={handleSave} />
-        </Paper>
-      )}
+      {renderContent()}
     </Container>
   );
 };

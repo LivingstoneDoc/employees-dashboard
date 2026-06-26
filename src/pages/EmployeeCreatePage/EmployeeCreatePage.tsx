@@ -3,16 +3,7 @@ import { employeeApi } from "../../api/employeeApi";
 import type { Employee } from "../../types/employee";
 import { notify } from "../../utils.tsx/notifications";
 import { APP_ROUTS } from "../../constants/routes";
-import {
-  Container,
-  Group,
-  LoadingOverlay,
-  Paper,
-  Text,
-  Title,
-  UnstyledButton,
-} from "@mantine/core";
-import { ArrowLeftIcon } from "@phosphor-icons/react";
+import { Container, LoadingOverlay, Paper, Title } from "@mantine/core";
 import { EmployeeDetailsForm } from "../EmployeeDetails/components/EmployeeDetailsForm";
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from "../../constants/messages";
 import { useState } from "react";

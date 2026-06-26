@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTS } from "../../constants/routes";
 import { ArrowLeftIcon } from "@phosphor-icons/react";
-import { Button, Group, Text, UnstyledButton } from "@mantine/core";
+import { Group, Text, UnstyledButton } from "@mantine/core";
 
 interface BackButtonProps {
   to?: string;
