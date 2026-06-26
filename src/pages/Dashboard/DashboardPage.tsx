@@ -92,7 +92,7 @@ export const DashboardPage = () => {
             <Grid.Col span={{ base: 12, md: 8 }}>
               <Skeleton height={300} radius="md" />
             </Grid.Col>
-            <Grid.Col span={{ base: 12, md: 8 }}>
+            <Grid.Col span={{ base: 12, md: 4 }}>
               <Skeleton height={300} radius="md" />
             </Grid.Col>
           </Grid>
