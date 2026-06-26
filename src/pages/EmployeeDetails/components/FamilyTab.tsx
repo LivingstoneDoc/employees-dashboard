@@ -1,6 +1,7 @@
 import {
   ActionIcon,
   Button,
+  Grid,
   Group,
   Select,
   Stack,
@@ -47,33 +48,39 @@ export const FamilyTab = ({ form }: FamilyTabProps) => {
           Нет данных о семье
         </Text>
       ) : (
-        <Stack gap="sm">
+        <Stack gap="xl">
           {form.values.family.map((member, i) => (
-            <Group key={member.id} align="flex-start" wrap="nowrap">
-              <TextInput
-                placeholder="ФИО родственника *"
-                aria-label="ФИО родственника"
-                style={{ flex: 2 }}
-                withAsterisk
-                {...form.getInputProps(`family.${i}.fullName`)}
-              />
-              <Select
-                placeholder="Кем приходится *"
-                aria-label="Кем приходится"
-                data={RELATIONS}
-                style={{ flex: 1 }}
-                withAsterisk
-                {...form.getInputProps(`family.${i}.relation`)}
-              />
-              <ActionIcon
-                color="red"
-                variant="subtle"
-                size="lg"
-                onClick={() => form.removeListItem("family", i)}
-              >
-                {<DeleteIcon />}
-              </ActionIcon>
-            </Group>
+            <Grid key={member.id} align="flex-start" gap="xs">
+              <Grid.Col span={{ base: 12, sm: 7 }}>
+                <TextInput
+                  placeholder="ФИО родственника *"
+                  aria-label="ФИО родственника"
+                  style={{ flex: 2 }}
+                  withAsterisk
+                  {...form.getInputProps(`family.${i}.fullName`)}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 10, sm: 4 }}>
+                <Select
+                  placeholder="Кем приходится *"
+                  aria-label="Кем приходится"
+                  data={RELATIONS}
+                  style={{ flex: 1 }}
+                  withAsterisk
+                  {...form.getInputProps(`family.${i}.relation`)}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 2, sm: 1 }}>
+                <ActionIcon
+                  color="red"
+                  variant="subtle"
+                  size="lg"
+                  onClick={() => form.removeListItem("family", i)}
+                >
+                  {<DeleteIcon />}
+                </ActionIcon>
+              </Grid.Col>
+            </Grid>
           ))}
         </Stack>
       )}

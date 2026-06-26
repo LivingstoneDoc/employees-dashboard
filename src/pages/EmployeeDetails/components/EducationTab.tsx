@@ -1,6 +1,7 @@
 import {
   ActionIcon,
   Button,
+  Grid,
   Group,
   NumberInput,
   Select,
@@ -49,43 +50,51 @@ export const EducationTab = ({ form }: EducationTabProps) => {
           Нет данных об образовании
         </Text>
       ) : (
-        <Stack gap="sm">
+        <Stack gap="xl">
           {form.values.education.map((edu, i) => (
-            <Group key={edu.id} align="flex-start" wrap="nowrap">
-              <TextInput
-                placeholder="Название ВУЗа/Колледжа *"
-                aria-label="Название ВУЗа/Колледжа"
-                style={{ flex: 3 }}
-                withAsterisk
-                {...form.getInputProps(`education.${i}.institution`)}
-              />
-              <Select
-                placeholder="Степень *"
-                aria-label="Степень"
-                data={EDUCATION_DEGREES}
-                style={{ flex: 2 }}
-                withAsterisk
-                {...form.getInputProps(`education.${i}.degree`)}
-              />
-              <NumberInput
-                placeholder="Год окончания *"
-                aria-label="Год окончания"
-                style={{ flex: 1 }}
-                allowDecimal={false}
-                allowNegative={false}
-                hideControls
-                withAsterisk
-                {...form.getInputProps(`education.${i}.graduationYear`)}
-              />
-              <ActionIcon
-                color="red"
-                variant="subtle"
-                size="lg"
-                onClick={() => form.removeListItem("education", i)}
-              >
-                {<DeleteIcon />}
-              </ActionIcon>
-            </Group>
+            <Grid key={edu.id} align="flex-start" gap="xs">
+              <Grid.Col span={{ base: 12, sm: 5 }}>
+                <TextInput
+                  placeholder="Название ВУЗа/Колледжа *"
+                  aria-label="Название ВУЗа/Колледжа"
+                  style={{ flex: 3 }}
+                  withAsterisk
+                  {...form.getInputProps(`education.${i}.institution`)}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, sm: 4 }}>
+                <Select
+                  placeholder="Степень *"
+                  aria-label="Степень"
+                  data={EDUCATION_DEGREES}
+                  style={{ flex: 2 }}
+                  withAsterisk
+                  {...form.getInputProps(`education.${i}.degree`)}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 10, sm: 2 }}>
+                <NumberInput
+                  placeholder="Год окончания *"
+                  aria-label="Год окончания"
+                  style={{ flex: 1 }}
+                  allowDecimal={false}
+                  allowNegative={false}
+                  hideControls
+                  withAsterisk
+                  {...form.getInputProps(`education.${i}.graduationYear`)}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 2, sm: 1 }}>
+                <ActionIcon
+                  color="red"
+                  variant="subtle"
+                  size="lg"
+                  onClick={() => form.removeListItem("education", i)}
+                >
+                  {<DeleteIcon />}
+                </ActionIcon>
+              </Grid.Col>
+            </Grid>
           ))}
         </Stack>
       )}

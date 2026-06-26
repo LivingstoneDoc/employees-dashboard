@@ -1,3 +1,10 @@
+export const formatDate = (dateString: string | null) => {
+  if (!dateString) {
+    return "";
+  }
+  return new Date(dateString).toLocaleDateString("ru-RU");
+};
+
 export const calculateAge = (birthDateString: string | null): number | null => {
   if (!birthDateString) return null;
   const birthDate = new Date(birthDateString);

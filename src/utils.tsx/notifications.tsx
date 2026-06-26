@@ -1,5 +1,4 @@
 import { notifications } from "@mantine/notifications";
-import { SUCCESS_MESSAGES } from "../constants/messages";
 
 const TITLES = {
   SUCCESS: "Успешно",

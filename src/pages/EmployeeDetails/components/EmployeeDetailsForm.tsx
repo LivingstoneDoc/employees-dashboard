@@ -11,7 +11,6 @@ import {
 } from "@phosphor-icons/react";
 import { useForm } from "@mantine/form";
 import type { Employee, Gender, Status } from "../../../types/employee";
-import { useState } from "react";
 
 interface EmployeeDetailsFormProps {
   initialData?: Employee;

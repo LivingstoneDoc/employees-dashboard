@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { employeeApi } from "../../api/employeeApi";
 import {
-  Alert,
   Box,
   Button,
   Container,
@@ -15,7 +14,7 @@ import { useFilterStore } from "../../store/useFilterStore";
 import { useDebouncedValue } from "@mantine/hooks";
 import { EmployeesFilters } from "./components/EmployeesFilters";
 import { EmployeesTable } from "./components/EmployeesTable";
-import { RefreshIcon, WarningIcon } from "../../constants/icons";
+import { RefreshIcon } from "../../constants/icons";
 import { ERROR_MESSAGES } from "../../constants/messages";
 import { ErrorAlert } from "../../components/ErrorAlert/ErrorAlert";
 

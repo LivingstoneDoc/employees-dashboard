@@ -1,6 +1,5 @@
 import "@mantine/dates/styles.css";
 import {
-  Alert,
   Button,
   Center,
   Container,
@@ -19,8 +18,7 @@ import { useEffect, useState } from "react";
 import { employeeApi } from "../../api/employeeApi";
 import type { Employee } from "../../types/employee";
 import { EmployeeDetailsForm } from "./components/EmployeeDetailsForm";
-import { notifications } from "@mantine/notifications";
-import { RefreshIcon, WarningIcon } from "../../constants/icons";
+import { RefreshIcon } from "../../constants/icons";
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from "../../constants/messages";
 import { notify } from "../../utils.tsx/notifications";
 import { ErrorAlert } from "../../components/ErrorAlert/ErrorAlert";
@@ -122,7 +120,7 @@ export const EmployeeDetailsPage = () => {
           <Text fw={500}>К списку сотрудников</Text>
         </Group>
       </UnstyledButton>
-      <Title order={2} mt="sm">
+      <Title order={2} mt="sm" mb="md">
         Информация о сотруднике
       </Title>
       {employee && (
