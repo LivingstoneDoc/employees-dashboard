@@ -1,73 +1,47 @@
-# React + TypeScript + Vite
+# Mini CRM - Frontend Test Task
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A mini CRM system built as a frontend test assignment. The application allows users to view metrics, manage a list of employees, and edit their details.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Core:** React, TypeScript
+- **State Management:** Zustand
+- **UI Library:** Mantine UI
+- **Mock Data:** Faker.js
+- **Charts:** Mantine charts (uses Recharts library)
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Dashboard Page:** Displays key business metrics and visual charts.
+- **Employees List Page:**
+  - Data table containing all employees.
+  - Search/filter functionality by Name or Email.
+  - Filtering by Employee Status.
+  - Sorting by Full Name via column header click.
+  - Client-side pagination.
+- **Employee Management:**
+  - Dedicated page for creating a new employee.
+  - Detailed view page accessible by clicking on any employee in the table.
+  - Edit functionality on the employee details page.
+- **UX Improvements:** Smooth loading indicators (loaders) are implemented across all pages to simulate data fetching.
 
-## Expanding the ESLint configuration
+## Data Storage Notice
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+The application uses **in-memory storage** combined with `faker-js` for data generation.
+_Note: Every time you refresh the page, the state is reset and a completely new dataset of employees is generated._
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Getting Started
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+To run this project locally, follow these steps:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. Clone the repository (or download the source code).
+2. Open the project folder in your terminal.
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+5. Open your browser and navigate to the local URL provided in the terminal (usually `http://localhost:5173` or `http://localhost:3000`).
