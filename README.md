@@ -1,5 +1,7 @@
 # Mini CRM - Frontend Test Task
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Vercel-black?style=for-the-badge&logo=vercel)](https://employees-dashboard-beta.vercel.app)
+
 A mini CRM system built as a frontend test assignment. The application allows users to view metrics, manage a list of employees, and edit their details.
 
 ## Tech Stack
