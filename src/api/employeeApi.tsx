@@ -1,5 +1,6 @@
 import type { SortDirection } from "../store/useFilterStore";
 import type { Employee, Status } from "../types/employee";
+import { calculateAge } from "../utils.tsx/date";
 import { generateEmployees } from "./fakeDb";
 
 let inMemoryDb: Employee[] = generateEmployees(100);
@@ -67,5 +68,59 @@ export const employeeApi = {
     }
     inMemoryDb[index] = { ...inMemoryDb[index], ...updatedData };
     return { ...inMemoryDb[index] };
+  },
+  getStats: async () => {
+    await delay(400);
+    const total = inMemoryDb.length;
+    const active = inMemoryDb.filter(
+      (employee) => employee.status === "Активен",
+    ).length;
+    const vacation = inMemoryDb.filter(
+      (employee) => employee.status === "В отпуске",
+    ).length;
+    const dismissed = inMemoryDb.filter(
+      (employee) => employee.status === "Уволен",
+    ).length;
+    const males = inMemoryDb.filter(
+      (employee) => employee.gender === "Мужской",
+    ).length;
+    const females = inMemoryDb.filter(
+      (employee) => employee.gender === "Женский",
+    ).length;
+    const genderData = [
+      { name: "Мужской", value: males, color: "blue.5" },
+      { name: "Женский", value: females, color: "pink.5" },
+    ];
+    const ageGroups = {
+      "До 25": 0,
+      "26-35": 0,
+      "36-45": 0,
+      "46-55": 0,
+      "56+": 0,
+    };
+    inMemoryDb.forEach((employee) => {
+      const age = calculateAge(employee.birthDate);
+      if (age !== null) {
+        if (age <= 25) ageGroups["До 25"]++;
+        else if (age <= 35) ageGroups["26-35"]++;
+        else if (age <= 45) ageGroups["36-45"]++;
+        else if (age <= 55) ageGroups["46-55"]++;
+        else ageGroups["56+"]++;
+      }
+    });
+
+    const ageData = Object.entries(ageGroups).map(([group, count]) => ({
+      ageGroup: group,
+      count,
+    }));
+
+    return {
+      total,
+      active,
+      vacation,
+      dismissed,
+      genderData,
+      ageData,
+    };
   },
 };
