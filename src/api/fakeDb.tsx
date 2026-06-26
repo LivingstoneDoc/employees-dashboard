@@ -61,7 +61,7 @@ export const generateEmployees = (count: number): Employee[] => {
       middleName: faker.person.middleName(baseGender),
       birthDate: faker.date.birthdate().toISOString(),
       gender: customGender,
-      phone: faker.phone.number(),
+      phone: faker.phone.number({ style: "national" }),
       email: faker.internet.email(),
       status: faker.helpers.arrayElement(STATUS),
       family: generateFamilyMembers(),

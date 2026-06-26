@@ -1,7 +1,8 @@
-import { Grid, Select, Tabs, TextInput } from "@mantine/core";
+import { Grid, InputBase, Select, Tabs, TextInput } from "@mantine/core";
 import { STATUS, type Employee } from "../../../types/employee";
 import type { UseFormReturnType } from "@mantine/form";
 import { DateInput } from "@mantine/dates";
+import { IMaskInput } from "react-imask";
 
 interface BasicInfoTabProps {
   form: UseFormReturnType<Employee>;
@@ -53,9 +54,11 @@ export const BasicInfoTab = ({ form }: BasicInfoTabProps) => {
           />
         </Grid.Col>
         <Grid.Col span={{ base: 12, sm: 4 }}>
-          <TextInput
+          <InputBase
             label="Телефон"
-            placeholder="+7 (999) 000 00-00"
+            component={IMaskInput}
+            mask="8 (000) 000 00-00"
+            placeholder="8 (999) 000 00-00"
             withAsterisk
             {...form.getInputProps("phone")}
           />
