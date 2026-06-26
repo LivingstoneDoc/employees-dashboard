@@ -90,7 +90,11 @@ export const EmployeeDetailsForm = ({
   };
 
   return (
-    <form onSubmit={form.onSubmit(handleSubmit)}>
+    <form
+      onSubmit={form.onSubmit(handleSubmit, (errors) =>
+        console.log("ОШИБКИ ВАЛИДАЦИИ:", errors),
+      )}
+    >
       <Tabs defaultValue="basic">
         <Tabs.List mb="md">
           <Tabs.Tab value="basic" leftSection={userIcon}>
@@ -119,7 +123,7 @@ export const EmployeeDetailsForm = ({
           </Button>
         )}
         <Button type="submit" disabled={!form.isDirty()}>
-          Сохранить
+          {!initialData ? "Создать сотрудника" : "Сохранить"}
         </Button>
       </Group>
     </form>

@@ -128,8 +128,8 @@ export const EmployeesTable = ({ employees }: EmployeesTableProps) => {
 
   const renderDesktopTable = () => {
     return (
-      <Table.ScrollContainer minWidth={700} mt="lg">
-        <Table striped highlightOnHover mt="lg">
+      <Table.ScrollContainer minWidth={700} mt="md">
+        <Table striped highlightOnHover>
           <Table.Thead>
             <Table.Tr>
               <Table.Th

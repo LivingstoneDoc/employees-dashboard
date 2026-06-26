@@ -22,6 +22,7 @@ import { RefreshIcon } from "../../constants/icons";
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from "../../constants/messages";
 import { notify } from "../../utils.tsx/notifications";
 import { ErrorAlert } from "../../components/ErrorAlert/ErrorAlert";
+import { BackButton } from "../../components/BackButton/BackButton";
 
 export const EmployeeDetailsPage = () => {
   const navigate = useNavigate();
@@ -109,17 +110,7 @@ export const EmployeeDetailsPage = () => {
         zIndex={1000}
         overlayProps={{ radius: "sm", blur: 2 }}
       />
-
-      <UnstyledButton
-        onClick={() => navigate(APP_ROUTS.EMPLOYEES)}
-        c="blue.9"
-        className="back-link"
-      >
-        <Group gap={6}>
-          <ArrowLeftIcon size={20} />
-          <Text fw={500}>К списку сотрудников</Text>
-        </Group>
-      </UnstyledButton>
+      <BackButton />
       <Title order={2} mt="sm" mb="md">
         Информация о сотруднике
       </Title>

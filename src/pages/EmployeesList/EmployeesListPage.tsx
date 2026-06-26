@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Container,
+  Group,
   LoadingOverlay,
   Pagination,
   Text,
@@ -14,9 +15,11 @@ import { useFilterStore } from "../../store/useFilterStore";
 import { useDebouncedValue } from "@mantine/hooks";
 import { EmployeesFilters } from "./components/EmployeesFilters";
 import { EmployeesTable } from "./components/EmployeesTable";
-import { RefreshIcon } from "../../constants/icons";
+import { AddIcon, RefreshIcon } from "../../constants/icons";
 import { ERROR_MESSAGES } from "../../constants/messages";
 import { ErrorAlert } from "../../components/ErrorAlert/ErrorAlert";
+import { useNavigate } from "react-router-dom";
+import { APP_ROUTS } from "../../constants/routes";
 
 export const EmployeesListPage = () => {
   const [employees, setEmployees] = useState<any[]>([]);
@@ -26,6 +29,7 @@ export const EmployeesListPage = () => {
   const { searchQuery, statusFilter, sortDirection, page, setPage } =
     useFilterStore();
   const [debouncedSearch] = useDebouncedValue(searchQuery, 300);
+  const navigate = useNavigate();
 
   const fetchEmployees = async () => {
     setIsLoading(true);
@@ -93,7 +97,15 @@ export const EmployeesListPage = () => {
 
   return (
     <Container size="lg">
-      <Title order={2}>Список сотрудников</Title>
+      <Group justify="space-between" align="center" mb="md">
+        <Title order={2}>Список сотрудников</Title>
+        <Button
+          leftSection={<AddIcon />}
+          onClick={() => navigate(APP_ROUTS.CREATE_EMPLOYEE)}
+        >
+          Добавить сотрудника
+        </Button>
+      </Group>
       <EmployeesFilters />
       <Box pos="relative" mih="70vh" mt="md">
         <LoadingOverlay

@@ -1,5 +1,5 @@
 import { Grid, InputBase, Select, Tabs, TextInput } from "@mantine/core";
-import { STATUS, type Employee } from "../../../types/employee";
+import { GENDERS, STATUS, type Employee } from "../../../types/employee";
 import type { UseFormReturnType } from "@mantine/form";
 import { DateInput } from "@mantine/dates";
 import { IMaskInput } from "react-imask";
@@ -69,6 +69,16 @@ export const BasicInfoTab = ({ form }: BasicInfoTabProps) => {
             data={STATUS}
             withAsterisk
             {...form.getInputProps("status")}
+          />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, sm: 4 }}>
+          <Select
+            label="Пол"
+            placeholder="Выберите пол"
+            data={GENDERS}
+            withAsterisk
+            clearable
+            {...form.getInputProps("gender")}
           />
         </Grid.Col>
       </Grid>

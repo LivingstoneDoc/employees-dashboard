@@ -123,4 +123,11 @@ export const employeeApi = {
       ageData,
     };
   },
+  create: async (newEmployee: Employee): Promise<Employee> => {
+    await delay(800);
+    const newId = Date.now().toString();
+    const employeeWithId = { ...newEmployee, id: newId };
+    inMemoryDb.unshift(employeeWithId);
+    return employeeWithId;
+  },
 };
