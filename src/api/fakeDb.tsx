@@ -4,6 +4,7 @@ import type {
   FamilyMember,
   Education,
   WorkExperience,
+  Gender,
 } from "../types/employee";
 import {
   GENDERS,
@@ -12,13 +13,32 @@ import {
   EDUCATION_DEGREES,
 } from "../types/employee";
 
-const generateFamilyMembers = (): FamilyMember[] => {
+const generateFamilyMembers = (employeeGender: Gender): FamilyMember[] => {
   const count = faker.number.int({ min: 0, max: 2 });
-  return Array.from({ length: count }, () => ({
-    id: faker.string.uuid(),
-    fullName: faker.person.fullName(),
-    relation: faker.helpers.arrayElement(RELATIONS),
-  }));
+  let hasSpouse = false;
+
+  return Array.from({ length: count }, () => {
+    let relationString = faker.helpers.arrayElement(RELATIONS);
+
+    if (relationString === "Супруг(а)" && hasSpouse) {
+      relationString = "Ребенок";
+    }
+
+    let fakerGender: "male" | "female";
+
+    if (relationString === "Супруг(а)") {
+      hasSpouse = true;
+      fakerGender = employeeGender === "Мужской" ? "female" : "male";
+    } else {
+      fakerGender = faker.helpers.arrayElement(["male", "female"]);
+    }
+
+    return {
+      id: faker.string.uuid(),
+      fullName: faker.person.fullName({ sex: fakerGender }),
+      relation: relationString,
+    };
+  });
 };
 
 const generateEducation = (): Education[] => {
@@ -52,7 +72,7 @@ const generateWorkExperience = (): WorkExperience[] => {
 
 export const generateEmployees = (count: number): Employee[] => {
   return Array.from({ length: count }, () => {
-    const baseGender = faker.person.sexType();
+    const baseGender = faker.helpers.arrayElement(["male", "female"]);
     const customGender = baseGender === "male" ? GENDERS[0] : GENDERS[1];
     return {
       id: faker.string.uuid(),
@@ -64,7 +84,7 @@ export const generateEmployees = (count: number): Employee[] => {
       phone: faker.phone.number({ style: "national" }),
       email: faker.internet.email(),
       status: faker.helpers.arrayElement(STATUS),
-      family: generateFamilyMembers(),
+      family: generateFamilyMembers(customGender),
       education: generateEducation(),
       workExperience: generateWorkExperience(),
     };
